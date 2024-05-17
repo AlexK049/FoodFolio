@@ -1,0 +1,49 @@
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-items: center; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    width: 95%;
+    position: relative;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+}
+
+.dish {
+    font-size: medium;
+    margin: 0;
+}
+
+.user{
+    font-size: medium;
+    margin: 0;
+}
+
+.vendor {
+    font-size: medium;
+    margin: 0;
+}
+
+.rating {
+    font-size: medium;
+    margin: 0;
+}
+
+.body {
+    align-items: center;
+    margin: 0;
+}

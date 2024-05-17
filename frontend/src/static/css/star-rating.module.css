@@ -1,0 +1,23 @@
+.starArea {
+    display: inline-block;
+    color: gold;
+    user-select: none;
+}
+
+.hoverableStarArea {
+    cursor: pointer;
+}
+
+/* making all previous stars get hovered: https://stackoverflow.com/questions/1817792/is-there-a-previous-sibling-selector */
+.hoverableStarArea .star {
+    text-shadow: none;
+}
+
+.hoverableStarArea:hover .star {
+    --hover-color: gold;
+    text-shadow: 1px 0 0 var(--hover-color), 0 -1px 0 var(--hover-color), 0 1px 0 var(--hover-color), -1px 0 0 var(--hover-color);
+}
+
+.hoverableStarArea .star:hover~.star {
+    text-shadow: none;
+}
