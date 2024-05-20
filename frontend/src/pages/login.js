@@ -23,8 +23,8 @@ const Login = ({ setIsLoggedIn }) => {
     };
 
     return (
-        <div className="row justify-content-center mt-5">
-            <div className="card col-lg-5 col-md-8 col-sm-10">
+        <div className="row justify-content-center align-items-center vh-100">
+            <div className="card col-lg-6 col-md-8 col-sm-10 mt-n5">
                 <form onSubmit={handleLogin}>
                     <h2 className="mb-4 text-center">Login</h2>
                     <div className="form-group">
