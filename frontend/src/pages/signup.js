@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import APIClient from '../static/js/APIClient.js';
+import AuthPage from '../components/authPage.js';
 
 const Signup = () => {
     const [firstName, setFirstName] = useState('');
@@ -20,61 +21,50 @@ const Signup = () => {
     };
 
     return (
-        <div className="row justify-content-center mt-5">
-            <div className="card col-lg-5 col-md-8 col-sm-10">
-                <form onSubmit={handleSignup} className="signup-form">
-                    <h2 className="mb-4 text-center">Create an Account</h2>
-                    <div className="form-group">
-                        <label htmlFor="firstName">First Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="firstName"
-                            placeholder="First Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="lastName"
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="username"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary mt-3">Sign Up</button>
+        <AuthPage>
+            <div className="md:w-1/2 flex flex-col justify-center">
+                <form onSubmit={handleSignup} className="p-4">
+                    <h1 className="text-center font-bold text-6xl">Welcome</h1>
+                    <h2 className="mb-4 text-center font-medium text-sm">to your personal food journey</h2>
+                    <input
+                        type="text"
+                        id="firstName"
+                        placeholder="First Name"
+                        className="w-full p-2 border rounded-md mb-4"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        id="lastName"
+                        placeholder="Last Name"
+                        className="w-full p-2 border rounded-md mb-4"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        className="w-full p-2 border rounded-md mb-4"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        className="w-full p-2 border rounded-md mb-4"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit" className="bg-zinc-800 text-white rounded-md py-2 px-4 mt-3 w-full">Login</button>
                 </form>
                 <p className="mt-2 text-center">
-                    Already a user? <Link to="/login">Login</Link>
+                    Already a user? <a href="/login" className="text-blue-500">Login</a>
                 </p>
             </div>
-        </div>
+        </AuthPage>
     );
 };
 

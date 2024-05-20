@@ -6,5 +6,6 @@ import RestaurantMenu from "./restaurantMenu";
 import StarRating from "./starRating";
 import AddNote from "./addNote";
 import NoteGallery from "./noteGallery"
+import AuthPage from "./authPage";
 
-export { Drawer, Header, Modal, SidebarMenu, RestaurantMenu, StarRating, AddNote, NoteGallery }
+export { AuthPage, Drawer, Header, Modal, SidebarMenu, RestaurantMenu, StarRating, AddNote, NoteGallery }
