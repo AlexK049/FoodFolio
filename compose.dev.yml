@@ -5,10 +5,12 @@ services:
     volumes:
       - ./proxy/default.conf.template:/etc/nginx/templates/default.conf.template
     ports:
-      - "80:80"
+      - 80:80
 
   api:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: dev.Dockerfile
     restart: unless-stopped
     volumes:
       - ./api/src:/app/src
@@ -16,6 +18,8 @@ services:
       - PORT=80
     env_file:
       - .env
+    ports:
+      - 9229:9229 #expose port for node debugger
 
   frontend:
     build: ./frontend
@@ -24,6 +28,7 @@ services:
       - ./frontend/src:/app/src
     environment:
       - PORT=80
+      - WATCHPACK_POLLING=true #for hot reload to work on windows or wsl according to: https://www.reddit.com/r/nextjs/comments/1638ec6/getting_hot_reload_to_work_in_docker/
 
   database:
     image: mariadb:10.6

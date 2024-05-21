@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start_dev": "nodemon -L ./server.js",
+    "dev": "nodemon -L --inspect=0.0.0.0:9229 --signal SIGINT --nolazy ./server.js",
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
