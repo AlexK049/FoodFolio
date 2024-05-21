@@ -44,7 +44,7 @@ userRouter.post('/login', (req, res) => {
 
 userRouter.post('/logout', (req, res) => {
     removeToken(req, res);
-    res.status(200);
+    return res.status(200).send("Successfully logged out");
 });
 
 userRouter.post('/signup', (req, res) => {
@@ -53,12 +53,12 @@ userRouter.post('/signup', (req, res) => {
     crypto.pbkdf2(req.body.password, salt, 100000, 64, 'sha256', (err, derivedKey) => {
         db.query('INSERT INTO user (user_username, user_firstname, user_lastname, user_passwordhash, user_salt) VALUES (?, ?, ?, ?, ?)',
             [req.body.username, req.body.firstname, req.body.lastname, derivedKey.toString('hex'), salt]).then(({ err }) => {
-            if (err) {
-                res.status(400).json({ msg: "failed to sign up user" });
-            } else {
-                res.status(200).json({ msg: "user sign up success" });
-            }
-        });
+                if (err) {
+                    res.status(400).json({ msg: "failed to sign up user" });
+                } else {
+                    res.status(200).json({ msg: "user sign up success" });
+                }
+            });
     });
 });
 
@@ -67,7 +67,7 @@ userRouter.get('/current', TokenMiddleware, (req, res) => {
 });
 
 userRouter.get('/:userID', TokenMiddleware, (req, res) => {
-    db.query('SELECT * FROM user WHERE user_id=?', [req.params.userID]).then(({results}) => {
+    db.query('SELECT * FROM user WHERE user_id=?', [req.params.userID]).then(({ results }) => {
         res.json(new User(results[0]));
     });
 });
