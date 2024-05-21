@@ -11,19 +11,13 @@ export default function App() {
             // Still loading, you can show a loading spinner or another component
             return <div>Loading...</div>;
         }
-
         return isLoggedIn ? children : <Navigate to="/login" />;
     };
 
     useEffect(() => {
         const checkStatus = async () => {
             try {
-                const user = await api.getCurrentUser();
-                if (user) {
-                    setIsLoggedIn(true);
-                } else {
-                    setIsLoggedIn(false);
-                }
+                setIsLoggedIn(await api.isAuth());
             } catch (error) {
                 setIsLoggedIn(false);
             }

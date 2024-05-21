@@ -12,7 +12,7 @@ export default {
     getNearbyRestaurants: (sw, ne) => HTTPClient.get(`${API_BASE}/restaurants/nearby?sw=${JSON.stringify(sw)}&ne=${JSON.stringify(ne)}`),
 
     getRestaurantNotes: (id) => HTTPClient.get(`${API_BASE}/restaurants/${id}/notes`),
-    
+
     getRestaurantbyID: (id) => HTTPClient.get(`${API_BASE}/restaurants/${id}`),
 
     newNote: (userID, restID, dish, rating, body) => {
@@ -33,6 +33,16 @@ export default {
     getCurrentUser: () => HTTPClient.get(`${API_BASE}/users/current`).then(sessionData => sessionData.user),
 
     logout: () => HTTPClient.post(`${API_BASE}/users/logout`, {}),
+
+    //this method differs from getCurrentUser in that it returns a boolean, and it doesn't redirect if the currentUser is null (which happens if not authenticated)
+    isAuth: async () => {
+        return fetch(`${API_BASE}/users/current`).then(res => {
+            if (!res.ok && res.status === 401) {
+                return false;
+            }
+            return true;
+        })
+    },
 
     editNote: (id, dish, rating, body) => {
         const value = {
