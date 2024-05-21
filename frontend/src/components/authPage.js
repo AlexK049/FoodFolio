@@ -59,15 +59,38 @@ const RotatingText = ({ className }) => {
     );
 }
 
+function rInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const AuthPage = ({ children }) => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-zinc-100">
-            <div className="w-full md:w-3/4 md:flex lg:w-2/3 gap-5 p-2 bg-zinc-50 rounded-2xl overflow-hidden shadow-lg border-2">
+            <div className="w-full md:w-3/4 md:flex lg:w-2/3 gap-5 p-2 bg-zinc-50 rounded-2xl overflow-hidden shadow-lg border-2 z-10">
                 {children}
                 <div className="md:w-1/2 flex flex-col justify-center items-center">
                     <img src={mainLogo} alt="logo" className="md:h-4/5 object-contain hidden md:block" />
                     <RotatingText className="font-bold text-orange-300 hidden md:block" />
                 </div>
+            </div>
+
+            {/* Orange circles */}
+            <div className="absolute inset-0 pointer-events-none">
+                {Array.from({ length: 20 }).map((_, index) => {
+                    const cDiam = `${rInt(20, 30)}px`
+                    return (
+                        <div
+                            key={index}
+                            className={`absolute animate-spin rounded-full bg-orange-300`}
+                            style={{
+                                top: `${Math.floor(Math.random() * 90)}%`,
+                                left: `${Math.floor(Math.random() * 90)}%`,
+                                width: cDiam,
+                                height: cDiam
+                            }}
+                        />
+                    )
+                })}
             </div>
         </div>
     );
