@@ -63,6 +63,23 @@ function rInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+//move circles outside of auth page to prevent the circles from regenerating on each render
+const circles = Array.from({ length: 20 }).map((_, index) => {
+    const cDiam = `${rInt(20, 30)}px`
+    return (
+        <div
+            key={index}
+            className={`absolute animate-spin rounded-full bg-orange-300`}
+            style={{
+                top: `${Math.floor(Math.random() * 90)}%`,
+                left: `${Math.floor(Math.random() * 90)}%`,
+                width: cDiam,
+                height: cDiam
+            }}
+        />
+    )
+});
+
 const AuthPage = ({ children }) => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-zinc-100">
@@ -76,21 +93,7 @@ const AuthPage = ({ children }) => {
 
             {/* Orange circles */}
             <div className="absolute inset-0 pointer-events-none">
-                {Array.from({ length: 20 }).map((_, index) => {
-                    const cDiam = `${rInt(20, 30)}px`
-                    return (
-                        <div
-                            key={index}
-                            className={`absolute animate-spin rounded-full bg-orange-300`}
-                            style={{
-                                top: `${Math.floor(Math.random() * 90)}%`,
-                                left: `${Math.floor(Math.random() * 90)}%`,
-                                width: cDiam,
-                                height: cDiam
-                            }}
-                        />
-                    )
-                })}
+                {circles}
             </div>
         </div>
     );
