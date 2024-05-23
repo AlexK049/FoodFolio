@@ -5,3 +5,46 @@
     border-radius: 20px;
     z-index: 0;
 }
+
+/* # Tooltip for marker styles*/
+.leaflet-tooltip {
+    /* background-color: rgba(200, 200, 200, 0.8); */
+    border: 0px;
+    box-shadow: none;
+    font-weight: 900;
+    border-radius: 10px;
+    /* color: #227bc9; */
+}
+
+.leaflet-tooltip-left {
+    margin-right: -2px;
+}
+
+.leaflet-tooltip-right {
+    margin-left: -2px;
+}
+
+.leaflet-tooltip-top {
+    margin-left: -15px;
+}
+
+.leaflet-tooltip-bottom {
+    margin-left: -15px;
+}
+
+/* ## hide tooltip arrow */
+.leaflet-tooltip-left:before {
+    border-left-color: transparent;
+}
+
+.leaflet-tooltip-right:before {
+    border-right-color: transparent;
+}
+
+.leaflet-tooltip-top:before {
+    border-top-color: transparent;
+}
+
+.leaflet-tooltop-bottom:before {
+    border-bottom-color: transparent;
+}

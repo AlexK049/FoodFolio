@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from '../static/css/post-gallery.module.css';
 import api from '../static/js/APIClient.js';
 import StarRating from './starRating.js';
-import { cleanRestaurant } from '../static/js/utils.js';
 
 function groupNotesByDish(notes) {
     const groupedNotes = {};
@@ -36,7 +35,7 @@ const RestaurantMenu = ({ restaurantId }) => {
                 const restNotes = await api.getRestaurantNotes(restaurantId);
                 const rest = await api.getRestaurantbyID(restaurantId);
                 setNotes(restNotes);
-                setRestaurant(cleanRestaurant(rest));
+                setRestaurant(rest);
             } catch (error) {
                 console.log('Error fetching data:', error);
             }

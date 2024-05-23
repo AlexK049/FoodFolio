@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { MapContainer, TileLayer } from 'react-leaflet'
 import { UpdatingRestaurantMarkers, ControlledViewChanger } from "../components/map"
 import { Modal, RestaurantMenu, AddNote } from "../components"
@@ -31,7 +31,7 @@ export const Home = () => {
 
     return (
         <div>
-            <div className="d-flex flex-column align-items-center mt-3">
+            <div className="flex justify-center items-center mt-3">
                 <MapContainer center={defaultMapCenter} zoom={15} minZoom={3} scrollWheelZoom={true}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
