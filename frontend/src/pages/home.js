@@ -26,8 +26,8 @@ export const Home = () => {
     }
 
     return (
-        <div>
-            <div className="flex justify-center items-center h-screen">
+        <div className="h-screen">
+            <div className="flex justify-center items-center h-full">
                 <MapContainer center={defaultMapCenter} zoom={15} minZoom={3} scrollWheelZoom={true}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
