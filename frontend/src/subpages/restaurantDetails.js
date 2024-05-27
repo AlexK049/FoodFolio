@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../static/css/post-gallery.module.css';
 import api from '../static/js/APIClient.js';
-import StarRating from './starRating.js';
+import StarRating from '../components/starRating.js';
 
 function groupNotesByDish(notes) {
     const groupedNotes = {};
@@ -25,7 +25,7 @@ function avgDishRating(notes) {
     return avgRating;
 }
 
-const RestaurantMenu = ({ restaurantId }) => {
+const RestaurantDetails = ({ restaurantId }) => {
     const [notes, setNotes] = useState([])
     const [restaurant, setRestaurant] = useState();
 
@@ -74,4 +74,4 @@ const RestaurantMenu = ({ restaurantId }) => {
     );
 };
 
-export default RestaurantMenu;
+export default RestaurantDetails;

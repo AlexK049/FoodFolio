@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Header, SidebarMenu } from "../components";
+import { Header, SidebarMenu } from ".";
 
 const AppSkeleton = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

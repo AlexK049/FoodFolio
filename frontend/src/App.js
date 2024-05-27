@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Home, Notes, Settings, Login, Signup, AppSkeleton, Offline } from "./pages";
+import { Home, Notes, Settings, Login, Signup, Offline } from "./pages";
+import AppSkeleton from "./components/appSkeleton";
 import { useState, useEffect } from 'react';
 import api from './static/js/APIClient'
 

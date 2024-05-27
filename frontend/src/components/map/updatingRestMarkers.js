@@ -18,7 +18,7 @@ function isCoordsEqual(coord1, coord2) {
     return coord1Lat === coord2Lat && coord1Lng === coord2Lng;
 }
 
-const UpdatingRestaurantMarkers = ({ openRestaurantMenuModal, openAddNoteModal }) => {
+const UpdatingRestaurantMarkers = ({ openRestaurantModal }) => {
     const map = useMap();
 
     const [restaurants, setRestaurants] = useState([]);
@@ -95,8 +95,8 @@ const UpdatingRestaurantMarkers = ({ openRestaurantMenuModal, openAddNoteModal }
         <RestaurantMarker
             key={restaurant.id}
             restaurant={restaurant}
-            openRestaurantMenuModal={openRestaurantMenuModal}
-            openAddNoteModal={openAddNoteModal}
+            openRestaurantModal={openRestaurantModal}
+            isLabeled={false}
         />
     );
 }

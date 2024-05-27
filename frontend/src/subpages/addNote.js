@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../static/js/APIClient.js';
-import StarRating from './starRating.js';
+import StarRating from '../components/starRating.js';
 
 const AddNote = ({ restaurantId }) => {
     const [dishName, setDishName] = useState('');
@@ -53,7 +53,7 @@ const AddNote = ({ restaurantId }) => {
                             Dish Name:
                             <input type="text" className="form-control" value={dishName} onChange={(e) => setDishName(e.target.value)} />
                         </label>
-                        <StarRating value={rating} onChange={setRating} size={4}/>
+                        <StarRating value={rating} onChange={setRating} size={4} />
                         {/* <div className="form-check">
                             <input type="checkbox" className="form-check-input" id="privateCheckbox" />
                             <label className="form-check-label" htmlFor="privateCheckbox">
@@ -76,7 +76,7 @@ const AddNote = ({ restaurantId }) => {
                         </button>
                     </div>
                 </div>
-                
+
                 <div className="row mt-3">
                     <div className="col-md-6 offset-md-3">
                         <button type="submit" className="btn btn-primary">
