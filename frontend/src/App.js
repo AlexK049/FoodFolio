@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Home, Notes, Settings, Login, Signup, Offline } from "./pages";
-import AppSkeleton from "./components/appSkeleton";
 import { useState, useEffect } from 'react';
 import api from './static/js/APIClient'
 
@@ -32,7 +31,7 @@ export default function App() {
         <div className="App">
             <Router>
                 <Routes>
-                    <Route path="/" element={<ProtectedRoute><AppSkeleton /></ProtectedRoute>}>
+                    <Route path="/" element={<ProtectedRoute><Outlet /></ProtectedRoute>}>
                         <Route path="/" element={<Home />} />
                         <Route path="/notes" element={<Notes />} />
                         <Route path="/offline" element={<Offline />} />
