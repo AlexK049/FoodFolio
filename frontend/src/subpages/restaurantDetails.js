@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../static/js/APIClient.js';
 import StarRating from '../components/starRating.js';
-import { cleanName } from '../static/js/utils.js'
 
 function groupNotesByDish(notes) {
     const groupedNotes = {};
@@ -25,33 +23,18 @@ function avgDishRating(notes) {
     return avgRating;
 }
 
-const RestaurantDetails = ({ restaurantId }) => {
-    const [notes, setNotes] = useState([])
-    const [restaurant, setRestaurant] = useState();
+const RestaurantDetails = ({ restaurantInfo }) => {
+    const { restaurant, notes } = restaurantInfo || {};
     const [avgRestDishRating, setAvgRestDishRating] = useState();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const restNotes = await api.getRestaurantNotes(restaurantId);
-                const rest = await api.getRestaurantbyID(restaurantId);
-                rest.address = cleanName(rest.address);
-                rest.city = cleanName(rest.city);
-                setNotes(restNotes);
-                setRestaurant(rest);
-                setAvgRestDishRating(avgDishRating(restNotes));
-            } catch (error) {
-                console.log('Error fetching data:', error);
-            }
-        };
-        if (restaurantId) {
-            fetchData();
+        if (restaurantInfo) {
+            setAvgRestDishRating(avgDishRating(notes));
         }
-    }, [restaurantId]);
+    }, [restaurantInfo]);
 
     return (
-        <div className="p-4 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-2">{`${restaurant?.name} Menu`}</h1>
+        <div className="flex flex-col">
             <span className="text-gray-600 mb-1">{restaurant?.address + `, ${restaurant?.city}, ${restaurant?.state?.toUpperCase()}`}</span>
             {
                 notes?.length > 0 ?
@@ -62,28 +45,33 @@ const RestaurantDetails = ({ restaurantId }) => {
                     :
                     <div className="italic text-gray-500">no ratings</div>
             }
+            <h2 className="text-xl font-bold mt-2">Menu</h2>
             {
-                Object.entries(groupNotesByDish(notes)).map(([dish, userNotes]) => {
-                    return (
-                        <div key={dish}>
-                            <div>
-                                <h1>{dish}</h1>
-                                <StarRating value={avgDishRating(userNotes)} readonly />
-                            </div>
+                notes?.length > 0 ?
+                    Object.entries(groupNotesByDish(notes)).map(([dish, userNotes]) => {
+                        return (
+                            <div key={dish}>
+                                <div>
+                                    <h1>{dish}</h1>
+                                    <StarRating value={avgDishRating(userNotes)} readonly />
+                                </div>
 
-                            <div >
-                                {
-                                    userNotes.map(note => {
-                                        return (
-                                            <div key={note.id}>{note.body}</div>
-                                        )
-                                    })
-                                }
+                                <div >
+                                    {
+                                        userNotes.map(note => {
+                                            return (
+                                                <div key={note.id}>{note.body}</div>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    )
-                })
+                        )
+                    })
+                    :
+                    <div className="italic text-gray-500">no dishes reported by customers</div>
             }
+            <button type="button" className="self-end text-white bg-orange-400 hover:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add Note</button>
         </div>
     );
 };

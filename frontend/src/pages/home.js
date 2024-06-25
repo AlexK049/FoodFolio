@@ -5,6 +5,8 @@ import { Modal, Hud } from "../components"
 import { RestaurantDetails } from "../subpages"
 import Notes from "./notes"
 import "../static/css/leaflet.css"
+import api from '../static/js/APIClient.js';
+import { cleanName } from '../static/js/utils.js'
 
 export const Home = () => {
     const defaultMapCenter = [35.7851, -78.6813];
@@ -19,11 +21,19 @@ export const Home = () => {
     // });
 
     const [restaurantMenuModalOpen, setRestaurantMenuModalOpen] = useState(false);
-    const [targetRestaurantId, setTargetRestaurantId] = useState();
     const [notesOpen, setNotesOpen] = useState(false);
+    const [restaurantInfo, setRestaurantInfo] = useState();
 
-    const openRestaurantMenuModal = (restaurantId) => {
-        setTargetRestaurantId(restaurantId);
+    const openRestaurantMenuModal = async (restaurantId) => {
+        try {
+            const restNotes = await api.getRestaurantNotes(restaurantId);
+            const rest = await api.getRestaurantbyID(restaurantId);
+            rest.address = cleanName(rest.address);
+            rest.city = cleanName(rest.city);
+            setRestaurantInfo({ restaurant: rest, notes: restNotes })
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
         setRestaurantMenuModalOpen(true);
     }
 
@@ -46,10 +56,10 @@ export const Home = () => {
                     :
                     ""
             }
-            <Modal isOpen={restaurantMenuModalOpen} close={() => setRestaurantMenuModalOpen(false)}>
-                <RestaurantDetails restaurantId={targetRestaurantId} />
+            <Modal isOpen={restaurantMenuModalOpen} close={() => setRestaurantMenuModalOpen(false)} title={restaurantInfo?.restaurant?.name}>
+                <RestaurantDetails restaurantInfo={restaurantInfo} />
             </Modal>
-        </div>
+        </div >
     )
 }
 

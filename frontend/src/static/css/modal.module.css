@@ -7,7 +7,6 @@
     background-color: rgba(0, 0, 0, 0.7);
     display: none;
     z-index: 1000;
-    padding: 50px;
 }
 
 .modalOverlay.open {
@@ -15,16 +14,72 @@
 }
 
 .modalPane {
+    background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border: 2px solid #ced4da;
     border-radius: 10px;
+    width: 400px;
+    z-index: 1001;
     display: none;
 }
 
 .modalPane.open {
     display: block;
+}
+
+@media (max-width: 600px) {
+    .modalPane {
+        background-color: white;
+        z-index: 1001;
+        position: fixed;
+        display: block;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        transform: none;
+        border-radius: 10px 10px 0 0;
+        width: 100%;
+        max-width: none;
+    }
+
+    .closeBtn {
+        display: none;
+    }
+
+    /* this is done because otherwise the close animation occurs on every refresh */
+    .modalPane:not(.close):not(.open) {
+        display: none;
+    }
+
+    .modalPane.open {
+        animation: slideUp 0.3s ease-out forwards;
+    }
+
+    .modalPane.close {
+        animation: slideDown 0.3s ease-out forwards;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
 }
