@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { MapContainer, TileLayer } from 'react-leaflet'
 import { UpdatingRestaurantMarkers, ControlledViewChanger } from "../components/map"
 import { Modal, Hud } from "../components"
-import { RestaurantDetails } from "../subpages"
+import { AddNote, RestaurantDetails } from "../subpages"
 import Notes from "./notes"
 import "../static/css/leaflet.css"
 import api from '../static/js/APIClient.js';
@@ -21,8 +21,22 @@ export const Home = () => {
     // });
 
     const [restaurantMenuModalOpen, setRestaurantMenuModalOpen] = useState(false);
-    const [notesOpen, setNotesOpen] = useState(false);
     const [restaurantInfo, setRestaurantInfo] = useState();
+
+    const [notesOpen, setNotesOpen] = useState(false);
+    const [hudTitle, setHudTitle] = useState("Food Folio")
+    const toggleContext = () => {
+        setNotesOpen(current => !current);
+        setHudTitle(current => {
+            if (current === "Food Folio") {
+                return "Food Folio Journal";
+            } else {
+                return "Food Folio";
+            }
+        })
+    }
+
+    const [isAddNotePhase, setIsAddNotePhase] = useState(false);
 
     const openRestaurantMenuModal = async (restaurantId) => {
         try {
@@ -38,26 +52,33 @@ export const Home = () => {
     }
 
     return (
-        <div className="h-screen flex">
-            <div className="relative flex justify-center items-center h-full w-full">
-                <MapContainer center={defaultMapCenter} zoom={15} minZoom={3} scrollWheelZoom={true} zoomControl={false}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <UpdatingRestaurantMarkers openRestaurantModal={openRestaurantMenuModal} />
-                    <ControlledViewChanger center={mapCenter} zoom={15} />
-                </MapContainer>
-                <Hud openNotes={() => setNotesOpen(!notesOpen)} />
-            </div>
+        <div className="h-screen">
             {
                 notesOpen ?
                     <Notes />
                     :
-                    ""
+                    <div className="relative flex justify-center items-center h-full w-full">
+                        <MapContainer center={defaultMapCenter} zoom={15} minZoom={3} scrollWheelZoom={true} zoomControl={false}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <UpdatingRestaurantMarkers openRestaurantModal={openRestaurantMenuModal} />
+                            <ControlledViewChanger center={mapCenter} zoom={15} />
+                        </MapContainer>
+                    </div>
             }
+            <Hud openNotes={toggleContext} title={hudTitle} />
             <Modal isOpen={restaurantMenuModalOpen} close={() => setRestaurantMenuModalOpen(false)} title={restaurantInfo?.restaurant?.name}>
-                <RestaurantDetails restaurantInfo={restaurantInfo} />
+                {
+                    isAddNotePhase ?
+                        <AddNote restaurantId={restaurantInfo?.restaurant?.id} cancelClick={() => setIsAddNotePhase(false)} />
+                        :
+                        <div className="flex flex-col">
+                            <RestaurantDetails restaurantInfo={restaurantInfo} />
+                            <button onClick={() => setIsAddNotePhase(true)} type="button" className="self-end text-white bg-orange-400 hover:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add Note</button>
+                        </div>
+                }
             </Modal>
         </div >
     )

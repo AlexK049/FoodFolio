@@ -34,7 +34,7 @@ const RestaurantDetails = ({ restaurantInfo }) => {
     }, [restaurantInfo]);
 
     return (
-        <div className="flex flex-col">
+        <div>
             <span className="text-gray-600 mb-1">{restaurant?.address + `, ${restaurant?.city}, ${restaurant?.state?.toUpperCase()}`}</span>
             {
                 notes?.length > 0 ?
@@ -71,7 +71,6 @@ const RestaurantDetails = ({ restaurantInfo }) => {
                     :
                     <div className="italic text-gray-500">no dishes reported by customers</div>
             }
-            <button type="button" className="self-end text-white bg-orange-400 hover:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add Note</button>
         </div>
     );
 };
