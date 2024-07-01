@@ -14,7 +14,14 @@ function groupNotesByDish(notes) {
         groupedNotes[dish].push({ ...restOfNote });
     });
 
-    return groupedNotes;
+    const dishes = [];
+    Object.entries(groupedNotes).forEach(([dish, notes]) => {
+        dishes.push({ dish: dish, avgRating: avgDishRating(notes) })
+    });
+
+    dishes.sort((a, b) => a.avgRating - b.avgRating);
+
+    return dishes;
 }
 
 function avgDishRating(notes) {
@@ -48,26 +55,18 @@ const RestaurantDetails = ({ restaurantInfo }) => {
             <h2 className="text-xl font-bold mt-2">Menu</h2>
             {
                 notes?.length > 0 ?
-                    Object.entries(groupNotesByDish(notes)).map(([dish, userNotes]) => {
-                        return (
-                            <div key={dish}>
-                                <div className="flex items-center gap-2">
-                                    <h1 className="mt-1">{dish}</h1>
-                                    <StarRating size={5} value={avgDishRating(userNotes)} readonly />
-                                </div>
-
-                                <div>
-                                    {
-                                        userNotes.map(note => {
-                                            return (
-                                                <div key={note.id}>{note.body}</div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                        )
-                    })
+                    <ol className="mt-2 ">
+                        {groupNotesByDish(notes).map((x, i) => (
+                            <li key={x.dish} className="flex items-center gap-2 border-2 border-zinc-200 p-2 rounded mb-1">
+                                <span className="relative z-10 mr-2.5 flex h-[26px] w-full max-w-[26px] items-center justify-center rounded text-base text-zinc-800 font-bold">
+                                    <span className="border-4 border-orange-200 absolute top-0 left-0 z-[-1] h-full w-full -rotate-45 rounded"></span>
+                                    {i + 1}
+                                </span>
+                                <div className="mt-1 font-medium">{x.dish}</div>
+                                <StarRating size={5} value={x.avgRating} readonly />
+                            </li>
+                        ))}
+                    </ol>
                     :
                     <div className="italic text-gray-500">no dishes reported by customers</div>
             }

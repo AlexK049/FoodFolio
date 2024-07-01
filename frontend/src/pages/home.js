@@ -96,11 +96,6 @@ export const Home = () => {
                         :
                         <div className="flex flex-col">
                             <RestaurantDetails restaurantInfo={restaurantInfo} />
-                            <div>
-                                {
-                                    restaurantInfo?.notes?.map(note => <Note key={note.id} note={note} />)
-                                }
-                            </div>
                             <button onClick={() => setIsAddNotePhase(true)} type="button" className="self-end text-white bg-orange-400 hover:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add Note</button>
                         </div>
                 }
