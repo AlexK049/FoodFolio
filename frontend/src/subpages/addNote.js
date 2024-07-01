@@ -84,8 +84,8 @@ const AddNote = ({ restaurantId, cancelClick }) => {
                     ""
             }
             <div className="flex gap-1 justify-between mt-3">
-                <button onClick={handleCancelClick} type="button" class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</button>
-                <button onClick={handleSubmit} type="button" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">Save Note</button>
+                <button onClick={handleCancelClick} type="button" className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</button>
+                <button onClick={handleSubmit} type="button" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">Save Note</button>
             </div>
         </form>
     );

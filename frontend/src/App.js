@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { Home, Notes, Settings, Login, Signup, Offline } from "./pages";
+import { Home, Settings, Login, Signup, Offline } from "./pages";
 import { useState, useEffect } from 'react';
 import api from './static/js/APIClient'
 
@@ -33,7 +33,6 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<ProtectedRoute><Outlet /></ProtectedRoute>}>
                         <Route path="/" element={<Home />} />
-                        <Route path="/notes" element={<Notes />} />
                         <Route path="/offline" element={<Offline />} />
                     </Route>
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />

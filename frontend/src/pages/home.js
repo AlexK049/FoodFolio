@@ -3,7 +3,7 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import { UpdatingRestaurantMarkers, ControlledViewChanger } from "../components/map"
 import { Modal, Hud } from "../components"
 import { AddNote, RestaurantDetails } from "../subpages"
-import Notes from "./notes"
+import Note from "./note.js"
 import "../static/css/leaflet.css"
 import api from '../static/js/APIClient.js';
 import { cleanName } from '../static/js/utils.js'
@@ -20,24 +20,9 @@ export const Home = () => {
     //     }
     // });
 
+    /* code related to the restaurant modal and getting restaurant information */
     const [restaurantMenuModalOpen, setRestaurantMenuModalOpen] = useState(false);
     const [restaurantInfo, setRestaurantInfo] = useState();
-
-    const [notesOpen, setNotesOpen] = useState(false);
-    const [hudTitle, setHudTitle] = useState("Food Folio")
-    const toggleContext = () => {
-        setNotesOpen(current => !current);
-        setHudTitle(current => {
-            if (current === "Food Folio") {
-                return "Food Folio Journal";
-            } else {
-                return "Food Folio";
-            }
-        })
-    }
-
-    const [isAddNotePhase, setIsAddNotePhase] = useState(false);
-
     const openRestaurantMenuModal = async (restaurantId) => {
         try {
             const restNotes = await api.getRestaurantNotes(restaurantId);
@@ -50,12 +35,47 @@ export const Home = () => {
         }
         setRestaurantMenuModalOpen(true);
     }
+    //determines if restaurant modal is in the restaurant info or add note phase
+    const [isAddNotePhase, setIsAddNotePhase] = useState(false);
+
+    /* code related to the state of the single page (map or user notes) */
+    const [hudTitle, setHudTitle] = useState("Food Folio")
+    const [notesOpen, setNotesOpen] = useState(false);
+    const toggleContext = () => {
+        setNotesOpen(current => !current);
+        setHudTitle(current => {
+            if (current === "Food Folio") {
+                return "Food Folio Journal";
+            } else {
+                return "Food Folio";
+            }
+        })
+    }
+    const [userNotes, setUserNotes] = useState();
+    useEffect(() => {
+        const fetchUserNotes = async () => {
+            try {
+                const user = await api.getCurrentUser();
+                const userNotes = await api.getUserNotes(user.id);
+                setUserNotes(userNotes);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        if (notesOpen) {
+            fetchUserNotes();
+        }
+    }, [notesOpen]);
 
     return (
         <div className="h-screen">
             {
                 notesOpen ?
-                    <Notes />
+                    <div className="p-20">
+                        {
+                            userNotes?.map((note) => <Note key={note.id} note={note} />)
+                        }
+                    </div>
                     :
                     <div className="relative flex justify-center items-center h-full w-full">
                         <MapContainer center={defaultMapCenter} zoom={15} minZoom={3} scrollWheelZoom={true} zoomControl={false}>
@@ -69,13 +89,18 @@ export const Home = () => {
                     </div>
             }
             <Hud openNotes={toggleContext} title={hudTitle} />
-            <Modal isOpen={restaurantMenuModalOpen} close={() => setRestaurantMenuModalOpen(false)} title={restaurantInfo?.restaurant?.name}>
+            <Modal isOpen={restaurantMenuModalOpen} close={() => { setRestaurantMenuModalOpen(false); setIsAddNotePhase(false); }} title={restaurantInfo?.restaurant?.name}>
                 {
                     isAddNotePhase ?
                         <AddNote restaurantId={restaurantInfo?.restaurant?.id} cancelClick={() => setIsAddNotePhase(false)} />
                         :
                         <div className="flex flex-col">
                             <RestaurantDetails restaurantInfo={restaurantInfo} />
+                            <div>
+                                {
+                                    restaurantInfo?.notes?.map(note => <Note key={note.id} note={note} />)
+                                }
+                            </div>
                             <button onClick={() => setIsAddNotePhase(true)} type="button" className="self-end text-white bg-orange-400 hover:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add Note</button>
                         </div>
                 }

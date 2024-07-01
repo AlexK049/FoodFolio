@@ -39,8 +39,8 @@ const RestaurantDetails = ({ restaurantInfo }) => {
             {
                 notes?.length > 0 ?
                     <div className="flex items-center space-x-2">
-                        <div className="text-sm text-gray-500">{notes?.length} ratings</div>
-                        <StarRating value={avgRestDishRating} readonly />
+                        <StarRating size={5} value={avgRestDishRating} readonly />
+                        <div className="text-sm text-gray-500">{`(${notes?.length} ${notes?.length == 1 ? "rating" : "ratings"})`}</div>
                     </div>
                     :
                     <div className="italic text-gray-500">no ratings</div>
@@ -51,12 +51,12 @@ const RestaurantDetails = ({ restaurantInfo }) => {
                     Object.entries(groupNotesByDish(notes)).map(([dish, userNotes]) => {
                         return (
                             <div key={dish}>
-                                <div>
-                                    <h1>{dish}</h1>
-                                    <StarRating value={avgDishRating(userNotes)} readonly />
+                                <div className="flex items-center gap-2">
+                                    <h1 className="mt-1">{dish}</h1>
+                                    <StarRating size={5} value={avgDishRating(userNotes)} readonly />
                                 </div>
 
-                                <div >
+                                <div>
                                     {
                                         userNotes.map(note => {
                                             return (
