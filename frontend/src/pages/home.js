@@ -57,6 +57,7 @@ export const Home = () => {
             try {
                 const user = await api.getCurrentUser();
                 const userNotes = await api.getUserNotes(user.id);
+                console.log(userNotes)
                 setUserNotes(userNotes);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -72,9 +73,11 @@ export const Home = () => {
             {
                 notesOpen ?
                     <div className="p-20">
-                        {
-                            userNotes?.map((note) => <Note key={note.id} note={note} />)
-                        }
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {
+                                userNotes?.map((note) => <Note key={note.id} note={note} />)
+                            }
+                        </div>
                     </div>
                     :
                     <div className="relative flex justify-center items-center h-full w-full">
